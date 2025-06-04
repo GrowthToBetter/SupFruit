@@ -14,7 +14,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
-      .default("development"),
+      .default("development"), 
     CLOUDINARY_URL: z.string().url(),
     GOOGLE_CLIENT_SECRET: z.string(),
   },
