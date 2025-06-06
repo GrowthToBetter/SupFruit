@@ -23,8 +23,12 @@ export const uploadImageToCloudinary = async (input: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Cloudinary upload error:", error);
-
+    console.error("Cloudinary upload error:", {
+      message: error?.message,
+      name: error?.name,
+      http_code: error?.http_code,
+      details: error,
+    });
     throw new Error(error?.message ?? "Failed to upload image to Cloudinary");
   }
 };
-

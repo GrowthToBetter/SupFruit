@@ -373,14 +373,21 @@ export default function Home() {
                     xmlns="http://www.w3.org/2000/svg"
                     className="text-emerald-500">
                     <path
-                      d="M22 9L12 5L2 9L12 13L22 9ZM22 9V15"
+                      d="M3 10L12 3L21 10"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                     <path
-                      d="M6 11.5V16.5C6 16.5 8 18.5 12 18.5C16 18.5 18 16.5 18 16.5V11.5"
+                      d="M5 10V20H19V10"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M9 20V14H15V20"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
@@ -391,6 +398,7 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-4 text-slate-900">
                   Instansi Pemerintah
                 </h3>
+
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-center text-slate-700">
                     <CheckCircle className="h-5 w-5 text-emerald-500 mr-2 flex-shrink-0" />
@@ -433,12 +441,11 @@ export default function Home() {
             </div>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl text-white">
               Daftarkan buah buah segar anda pada kami
-              <span className="block text-primary mt-2">
-                Dari Subfruit
-              </span>
+              <span className="block text-primary mt-2">Dari Subfruit</span>
             </h2>
             <p className="text-xl text-slate-500">
-              Jadikan buah buah segar anda menjadi buah buah segar terbaik bagi para supplier
+              Jadikan buah buah segar anda menjadi buah buah segar terbaik bagi
+              para supplier
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button

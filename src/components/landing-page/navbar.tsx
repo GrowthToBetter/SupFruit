@@ -3,11 +3,21 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -45,9 +55,34 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="outline" asChild>
-              <Link href="/auth/signin">Masuk</Link>
-            </Button>
+            {!session ? (
+              <Button variant="outline" asChild>
+                <Link href="/auth/signin">Masuk</Link>
+              </Button>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Avatar className="h-6 w-6">
+                      <AvatarFallback>
+                        {session.user?.name?.slice(0, 2).toUpperCase() || "PR"}
+                      </AvatarFallback>
+                    </Avatar>
+                    {session.user?.name || "Profil"}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">Profil</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/">Dashboard</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => signOut()}>Keluar</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
 
           <button
@@ -102,14 +137,50 @@ export default function Navbar() {
                 Tentang
               </Link>
               <div className="flex flex-col space-y-2 pt-2">
-                <Button variant="outline" asChild className="w-full">
-                  <Link
-                    href="/auth/signin"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Masuk
-                  </Link>
-                </Button>
+                {!session ? (
+                  <Button variant="outline" asChild className="w-full">
+                    <Link
+                      href="/auth/signin"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Masuk
+                    </Link>
+                  </Button>
+                ) : (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="w-full flex justify-between">
+                        <span>{session.user?.name || "Profil"}</span>
+                        <Avatar className="ml-2 h-6 w-6">
+                          <AvatarFallback>
+                            {session.user?.name?.slice(0, 2).toUpperCase() || "PR"}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-full mt-2">
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile" onClick={() => setIsMenuOpen(false)}>
+                          Profil
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          signOut();
+                        }}
+                      >
+                        Keluar
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
               </div>
             </nav>
           </div>
