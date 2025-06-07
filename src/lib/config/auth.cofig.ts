@@ -34,7 +34,12 @@ export const authConfig = {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
-
+        const role = [
+          "chusniarin12@gmail.com",
+          "dummyakun12311@gmail.com",
+        ].includes(user.email)
+          ? role_user.Admin
+          : role_user.Pembeli;
         if (!existingUser) {
           // Create new user with default role Pembeli and link pembeli
           const newUser = await prisma.user.create({
@@ -42,7 +47,7 @@ export const authConfig = {
               name: user.name,
               email: user.email,
               image: user.image,
-              role: role_user.Pembeli, // or role_user.Pembeli if you import the enum
+              role: role, // or role_user.Pembeli if you import the enum
               pembeli: {
                 create: {},
               },

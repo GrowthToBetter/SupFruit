@@ -47,7 +47,7 @@ export default function Navbar() {
               Daftar Sebagai Supplier
             </Link>
             <Link
-              href="#"
+              href="/Pengembang"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               Tentang
@@ -130,7 +130,7 @@ export default function Navbar() {
                 Daftar Sebagai Supplier
               </Link>
               <Link
-                href="/"
+                href="/Pengembang"
                 className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={() => setIsMenuOpen(false)}
               >
