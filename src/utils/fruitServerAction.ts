@@ -65,3 +65,22 @@ export async function deleteFruit(id: string) {
     success: true,
   };
 }
+
+
+export async function editFruit(data: {
+  id: string;
+  stock: number;
+}) {
+  try {
+    await prisma.fruit.update({
+      where: { id: data.id },
+      data: {
+        stock: data.stock,
+      },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Edit fruit failed:", error);
+    return { success: false };
+  }
+}

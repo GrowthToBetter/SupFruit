@@ -17,7 +17,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import { generateWhatsAppBookingURL } from "@/components/dashboard/encodeMessage";
+import { generateWhatsAppBuyURL } from "@/components/dashboard/encodeMessage";
 import { contact } from "@/components/landing-page/footer";
 import Link from "next/link";
 import Image from "next/image";
@@ -117,7 +117,7 @@ export default async function FruitListPage() {
                       asChild
                       variant="default"
                       className="w-full mt-3">
-                      <Link href={generateWhatsAppBookingURL(contact)}>
+                      <Link href={generateWhatsAppBuyURL(contact, fruit.name, fruit.price?.price)}>
                         Pesan Sekarang
                       </Link>
                     </Button>

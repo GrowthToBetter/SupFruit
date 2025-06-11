@@ -35,19 +35,19 @@ export default function Navbar() {
               Beranda
             </Link>
             <Link
-              href="/list"
+              href="/dashboard/list"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               List Buah
             </Link>
             <Link
-              href="/daftar"
+              href="/dashboard/daftar"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               Daftar Sebagai Supplier
             </Link>
             <Link
-              href="/Pengembang"
+              href="/dashboard/Pengembang"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               Tentang
@@ -73,10 +73,10 @@ export default function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem asChild>
-                    <Link href="/profile">Profil</Link>
+                    <Link href="/dashboard/profile">Profil</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/">Dashboard</Link>
+                    <Link href="/dashboard">Dashboard</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => signOut()}>Keluar</DropdownMenuItem>
@@ -109,28 +109,28 @@ export default function Navbar() {
           <div className="container mx-auto px-4 md:px-6 max-w-7xl py-4">
             <nav className="flex flex-col space-y-4">
               <Link
-                href="/"
+                href="/dashboard"
                 className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Beranda
               </Link>
               <Link
-                href="/list"
+                href="/dashboard/list"
                 className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={() => setIsMenuOpen(false)}
               >
                 List Buah
               </Link>
               <Link
-                href="/daftar"
+                href="/dashboard/daftar"
                 className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Daftar Sebagai Supplier
               </Link>
               <Link
-                href="/Pengembang"
+                href="/dashboard/Pengembang"
                 className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -160,12 +160,12 @@ export default function Navbar() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-full mt-2">
                       <DropdownMenuItem asChild>
-                        <Link href="/profile" onClick={() => setIsMenuOpen(false)}>
+                        <Link href="/dashboard/profile" onClick={() => setIsMenuOpen(false)}>
                           Profil
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                        <Link href="/dashboard" onClick={() => setIsMenuOpen(false)}>
                           Dashboard
                         </Link>
                       </DropdownMenuItem>

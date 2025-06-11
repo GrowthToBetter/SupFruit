@@ -15,6 +15,18 @@ export async function getPendingFruits() {
   });
 }
 
+export async function getFruits() {
+  return await prisma.fruit.findMany({
+    include: {
+      supplier: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+}
+
 export async function getPendingSuppliers() {
   return await prisma.supplier.findMany({
     where: { member: false },

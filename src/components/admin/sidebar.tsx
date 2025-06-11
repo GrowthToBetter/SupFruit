@@ -7,6 +7,7 @@ import {
   LogOut,
   ChevronRight,
   ShoppingBasketIcon,
+  ListChecksIcon,
 } from "lucide-react";
 import {
   Sidebar,
@@ -34,6 +35,11 @@ const navItems = [
     icon: ShoppingBasketIcon,
     href: "/admin/fruit",
   },
+  {
+    label: "List Fruit",
+    icon: ListChecksIcon,
+    href: "/admin/listFruit",
+  }
 ];
 
 export function AppSidebar() {
