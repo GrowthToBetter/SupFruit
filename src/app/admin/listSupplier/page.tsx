@@ -6,16 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   banSupplier,
   getSuppliers,
-  verifySupplier,
 } from "@/utils/AdminServerAction";
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import { z } from "zod";
 
 const SupplierSchema = z.object({
@@ -52,13 +44,6 @@ export default function SupplierPage() {
 
   async function handleBan(id: string) {
     const result = await banSupplier(id);
-    if (result.success) {
-      setSuppliers((prev) => prev.filter((s) => s.id !== id));
-    }
-  }
-
-  async function handleUnban(id: string) {
-    const result = await verifySupplier(id);
     if (result.success) {
       setSuppliers((prev) => prev.filter((s) => s.id !== id));
     }
@@ -108,27 +93,12 @@ export default function SupplierPage() {
                       )}
                     </td>
                     <td className="py-2 px-4 w-40">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-between">
-                            Aksi <ChevronDown className="ml-2 h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem
-                            onClick={() => handleBan(supplier.id)}
-                            className="text-red-600 hover:bg-green-100 cursor-pointer">
-                            Ban
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleUnban(supplier.id)}
-                            className="text-green-600 hover:bg-red-100 cursor-pointer">
-                            Unban
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <Button
+                        variant="default"
+                        className="w-full"
+                        onClick={() => handleBan(supplier.id)}>
+                        Ban
+                      </Button>
                     </td>
                   </tr>
                 ))}

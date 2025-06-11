@@ -23,20 +23,22 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default async function FruitListPage() {
-  const list = await prisma.fruit.findMany({
-    where: {
-      isVerif: true,
-      status_fruit: "ready_stock",
-    },
-    include: {
-      supplier: {
-        include: {
-          user: true,
-        },
+  const list = await prisma.fruit
+    .findMany({
+      where: {
+        isVerif: true,
+        status_fruit: "ready_stock",
       },
-      price: true,
-    },
-  });
+      include: {
+        supplier: {
+          include: {
+            user: true,
+          },
+        },
+        price: true,
+      },
+    })
+    .then((res) => res.filter((f) => f.supplier.member === true));
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -117,7 +119,12 @@ export default async function FruitListPage() {
                       asChild
                       variant="default"
                       className="w-full mt-3">
-                      <Link href={generateWhatsAppBuyURL(contact, fruit.name, fruit.price?.price)}>
+                      <Link
+                        href={generateWhatsAppBuyURL(
+                          contact,
+                          fruit.name,
+                          fruit.price?.price
+                        )}>
                         Pesan Sekarang
                       </Link>
                     </Button>

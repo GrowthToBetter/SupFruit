@@ -35,6 +35,7 @@ export async function getPendingSuppliers() {
 }
 export async function getSuppliers() {
   return await prisma.supplier.findMany({
+    where: { member: true },
     include: { user: true, supplier_data: true },
   });
 }
