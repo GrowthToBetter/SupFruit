@@ -60,6 +60,7 @@ export async function verifySupplier(id: string) {
     });
     revalidatePath("/admin");
     revalidatePath("/profile");
+    revalidatePath("/list");
     return { success: true };
   } catch {
     return { success: false };
@@ -73,6 +74,7 @@ export async function banSupplier(id: string) {
     });
     revalidatePath("/admin");
     revalidatePath("/profile");
+    revalidatePath("/list");
     return { success: true };
   } catch {
     return { success: false };
@@ -83,6 +85,7 @@ export async function deniedSupplier(id: string) {
     await prisma.supplier.delete({ where: { id } });
     revalidatePath("/admin");
     revalidatePath("/profile");
+    revalidatePath("/list");
     return { success: true };
   } catch {
     return { success: false };
