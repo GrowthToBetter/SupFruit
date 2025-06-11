@@ -27,7 +27,7 @@ export interface ValidationResult {
 export const validateFile = (
   file: File,
   base64?: string,
-  options: ImageValidationOptions = {},
+  options: ImageValidationOptions = {}
 ): ValidationResult => {
   const {
     maxSize = 10 * 1024 * 1024,
@@ -69,7 +69,7 @@ export const validateFile = (
     return {
       isValid: false,
       error: `File extension '.${fileExtension}' is not allowed. Allowed extensions: ${allowedExtensions.join(
-        ", ",
+        ", "
       )}`,
     };
   }
@@ -148,7 +148,7 @@ export const base64ToFile = (dataUrl: string, filename: string): File => {
  */
 export const validateBase64File = (
   base64: string,
-  options: Omit<ImageValidationOptions, "validateContent"> = {},
+  options: Omit<ImageValidationOptions, "validateContent"> = {}
 ): ValidationResult => {
   const {
     maxSize = 10 * 1024 * 1024, // 10MB default
@@ -181,7 +181,7 @@ export const validateBase64File = (
     return {
       isValid: false,
       error: `File type '${mimeType}' is not allowed. Allowed types: ${allowedTypes.join(
-        ", ",
+        ", "
       )}`,
     };
   }
@@ -202,3 +202,9 @@ export const validateBase64File = (
 
   return { isValid: true };
 };
+
+export function randomString(length: number) {
+  return Math.random()
+    .toString(36)
+    .substring(2, 2 + length);
+}

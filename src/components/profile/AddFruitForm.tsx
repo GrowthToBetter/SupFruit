@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { upsertFruit, deleteFruit } from "@/utils/fruitServerAction";
 import { uploadImageToCloudinary } from "@/utils/cloudinary.utils";
-import { randomString } from "@/app/(Main)/daftar/page";
+import { randomString } from "@/utils/validate-file.utils";
 
 const formSchema = z.object({
   id: z.string().optional(),

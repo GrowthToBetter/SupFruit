@@ -15,6 +15,7 @@ import { addMember } from "@/utils/memberServerAction";
 import { uploadImageToCloudinary } from "@/utils/cloudinary.utils";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { randomString } from "@/utils/validate-file.utils";
 
 // 1. Define schema
 const formSchema = z.object({
@@ -24,12 +25,6 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
-
-export function randomString(length: number) {
-  return Math.random()
-    .toString(36)
-    .substring(2, 2 + length);
-}
 export default function DaftarPage() {
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
