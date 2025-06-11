@@ -17,6 +17,7 @@ export async function getPendingFruits() {
 
 export async function getFruits() {
   return await prisma.fruit.findMany({
+    where: { isVerif: true },
     include: {
       supplier: {
         include: {

@@ -18,7 +18,7 @@ const formSchema = z.object({
   fruit: z.string().min(1, "Nama buah wajib diisi"),
   stock: z.coerce.number().int().min(0, "Stok tidak valid"),
   price: z.string().min(1, "Harga wajib diisi"),
-  image: z.any().optional(),
+  image: z.any(),
 });
 
 export function AddFruitForm({ supplierId }: { supplierId: string }) {
@@ -97,10 +97,11 @@ export function AddFruitForm({ supplierId }: { supplierId: string }) {
             disabled={isPending}
           />
           <div>
-            <Label htmlFor="image">Foto Buah (Optional)</Label>
+            <Label htmlFor="image">Foto Buah (max 3mb)</Label>
             <Input
               type="file"
               accept="image/*"
+              required
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) setImageFile(file);
