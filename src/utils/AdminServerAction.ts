@@ -33,6 +33,11 @@ export async function getPendingSuppliers() {
     include: { user: true, supplier_data: true },
   });
 }
+export async function getSuppliers() {
+  return await prisma.supplier.findMany({
+    include: { user: true, supplier_data: true },
+  });
+}
 
 export async function verifyFruit(id: string) {
   try {
@@ -51,6 +56,19 @@ export async function verifySupplier(id: string) {
     await prisma.supplier.update({
       where: { id },
       data: { member: true, user: { update: { role: "Supplier" } } },
+    });
+    revalidatePath("/admin");
+    revalidatePath("/profile");
+    return { success: true };
+  } catch {
+    return { success: false };
+  }
+}
+export async function banSupplier(id: string) {
+  try {
+    await prisma.supplier.update({
+      where: { id },
+      data: { member: false, user: { update: { role: "Pembeli" } } },
     });
     revalidatePath("/admin");
     revalidatePath("/profile");

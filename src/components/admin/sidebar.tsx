@@ -8,6 +8,7 @@ import {
   ChevronRight,
   ShoppingBasketIcon,
   ListChecksIcon,
+  User2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -39,6 +40,11 @@ const navItems = [
     label: "List Fruit",
     icon: ListChecksIcon,
     href: "/admin/listFruit",
+  },
+  {
+    label: "List Supplier",
+    icon: User2,
+    href: "/admin/listSupplier",
   }
 ];
 
