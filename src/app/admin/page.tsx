@@ -75,7 +75,7 @@ export default function SupplierPage() {
                 <tr>
                   <th className="py-2 px-4">Nama</th>
                   <th className="py-2 px-4">Email</th>
-                  <th className="py-2 px-4">Lisensi</th>
+                  <th className="py-2 px-4">No Telepon</th>
                   <th className="py-2 px-4">Omzet</th>
                   <th className="py-2 px-4">Foto</th>
                   <th className="py-2 px-4">Aksi</th>

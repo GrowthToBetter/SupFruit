@@ -94,7 +94,7 @@ export default function DaftarPage() {
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label htmlFor="licence_number">Nomor Lisensi</Label>
+          <Label htmlFor="licence_number">Nomor Telepon</Label>
           <Input id="licence_number" {...form.register("licence_number")} />
         </div>
         <div>
