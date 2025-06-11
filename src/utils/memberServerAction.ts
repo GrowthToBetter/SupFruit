@@ -21,10 +21,10 @@ export async function addMember(data: FormData) {
     await prisma.user.update({
       where: { email: session.user.email },
       data: {
-        role: role_user.Supplier,
+        role: role_user.Pembeli,
         supplier: {
           create: {
-            member: true,
+            member: false,
             supplier_data: {
               create: {
                 license: licence_number,
@@ -57,4 +57,6 @@ export async function updateSupplierImage(supplierId: string, imageUrl: string) 
       },
     },
   });
+  revalidatePath("/profile");
+  return { success: true };
 }

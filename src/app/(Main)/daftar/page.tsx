@@ -25,7 +25,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-function randomString(length: number) {
+export function randomString(length: number) {
   return Math.random()
     .toString(36)
     .substring(2, 2 + length);

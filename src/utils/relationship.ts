@@ -16,21 +16,6 @@ export type fruitGetPayload = Prisma.fruitGetPayload<{
     supplier:true
   }
 }>
-export type supplyFruitGetPayload = Prisma.supply_fruitGetPayload<{
-  include:{
-    fruit:{
-      include:{
-        price: true,
-        supplier: true
-      }
-    },
-    supplier:{
-      include:{
-        user: true
-      }
-    }
-  }
-}>
 
 export type userGetPayload = Prisma.UserGetPayload<{
   include: {
@@ -53,17 +38,8 @@ export type userGetPayload = Prisma.UserGetPayload<{
         };
         fruit: {
           include:{
-            fruit:{
-              include:{
-                price: true,
-                supplier: true
-              }
-            },
-            supplier: {
-              include: {
-                user: true;
-              };
-            }
+            price: true,
+            supplier: true
           }
         };
         user: true;

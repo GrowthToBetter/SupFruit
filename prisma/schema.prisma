@@ -74,7 +74,7 @@ model supplier {
   user          User           @relation(references: [id], fields: [user_id], onDelete: Cascade)
   member        Boolean        @default(false)
   supplier_data supplier_data?
-  fruit         supply_fruit[]
+  fruit         fruit[]
 }
 
 model supplier_data {
@@ -98,12 +98,14 @@ model fruit {
   id           String         @id @default(uuid())
   name         String
   price_id     String         @unique
+  image        String?
   status_fruit status_fruit   @default(empty_stock)
   stock        Int            @default(0)
   isVerif      Boolean        @default(false)
   price        fruit_price    @relation(references: [id], fields: [price_id], onDelete: Cascade)
   transaction  transaction[]
-  supplier     supply_fruit[]
+  supplier_id  String
+  supplier     supplier  @relation(references: [id], fields: [supplier_id], onDelete: Cascade)
 }
 
 model fruit_price {
@@ -113,13 +115,6 @@ model fruit_price {
   fruit fruit?
 }
 
-model supply_fruit {
-  id          String   @id @default(uuid())
-  fruit_id    String
-  supplier_id String
-  fruit       fruit    @relation(references: [id], fields: [fruit_id])
-  supplier    supplier @relation(references: [id], fields: [supplier_id])
-}
 
 model transaction {
   id         String  @id @default(uuid())

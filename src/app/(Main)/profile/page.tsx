@@ -34,17 +34,8 @@ export default async function Profile() {
           },
           fruit: {
             include: {
-              fruit: {
-                include: {
-                  price: true,
-                  supplier: true,
-                },
-              },
-              supplier: {
-                include: {
-                  user: true,
-                },
-              },
+              supplier: true,
+              price: true,
             },
           },
           user: true,

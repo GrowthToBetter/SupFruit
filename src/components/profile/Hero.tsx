@@ -4,7 +4,7 @@ import { PembeliInfo } from "@/components/profile/PembeliInfo";
 import { SupplierImageUpdateForm } from "@/components/profile/SupplierProfileForm";
 import { FruitList } from "@/components/profile/FruitList";
 import { AddFruitForm } from "@/components/profile/AddFruitForm";
-import { supplyFruitGetPayload, userGetPayload } from "@/utils/relationship";
+import { userGetPayload } from "@/utils/relationship";
 
 export default function ProfilePage({ user }: { user: userGetPayload }) {
 
@@ -22,7 +22,7 @@ export default function ProfilePage({ user }: { user: userGetPayload }) {
               user?.supplier?.supplier_data?.photo_profile as string
             }
           />
-          <FruitList fruits={user.supplier?.fruit as supplyFruitGetPayload[]}/>
+          <FruitList fruits={user.supplier?.fruit as []}/>
           <AddFruitForm supplierId={user?.supplier?.id as string}/>
         </>
       )}

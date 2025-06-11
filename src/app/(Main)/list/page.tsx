@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { generateWhatsAppBookingURL } from "@/components/dashboard/encodeMessage";
 import { contact } from "@/components/landing-page/footer";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function FruitListPage() {
   const list = await prisma.fruit.findMany({
@@ -30,11 +31,7 @@ export default async function FruitListPage() {
     include: {
       supplier: {
         include: {
-          supplier: {
-            include: {
-              user: true,
-            },
-          },
+          user: true,
         },
       },
       price: true,
@@ -63,29 +60,51 @@ export default async function FruitListPage() {
             {list.map((fruit) => (
               <Card key={fruit.id} className="shadow-md">
                 <CardContent className="p-4">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="bg-emerald-100 text-emerald-600">
-                      <AvatarFallback>
-                        {fruit.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h2 className="text-xl font-semibold text-slate-900">
-                        {fruit.name}
-                      </h2>
-                      <p className="text-sm text-slate-600">
-                        Harga: Rp {fruit.price?.price || "-"}
-                      </p>
+                  <div className="flex items-center justify-between gap-6 rounded-xl border p-4 shadow-sm bg-white">
+                    <div className="flex items-center gap-4">
+                      <Avatar className="bg-emerald-100 text-emerald-600">
+                        <AvatarFallback>
+                          {fruit.name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h2 className="text-lg font-semibold text-slate-900">
+                          {fruit.name}
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                          Harga:{" "}
+                          <span className="font-medium">
+                            Rp {fruit.price?.price || "-"}
+                          </span>
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Stock:{" "}
+                          <span className="font-medium">
+                            {fruit.stock || "0"} Kg
+                          </span>
+                        </p>
+                      </div>
                     </div>
+
+                    {fruit.image && (
+                      <div className="min-w-[100px] max-w-[150px]">
+                        <Image
+                          src={fruit.image}
+                          alt={fruit.name}
+                          width={150}
+                          height={150}
+                          className="rounded-md object-cover shadow"
+                        />
+                      </div>
+                    )}
                   </div>
+
                   <Separator className="my-3 bg-slate-200 h-px" />
                   <div className="flex flex-wrap gap-2 text-sm mb-2">
                     <Badge variant="outline">Stock: {fruit.stock}</Badge>
-                    {fruit.supplier.map((s) => (
-                      <Badge key={s.id} variant="default">
-                        Supplier: {s.supplier.user.name}
-                      </Badge>
-                    ))}
+                    <Badge variant="default">
+                      Supplier: {fruit.supplier.user.name}
+                    </Badge>
                   </div>
                   <Dialog>
                     <DialogTrigger asChild>
@@ -112,11 +131,9 @@ export default async function FruitListPage() {
                           Lihat Supplier
                         </CollapsibleTrigger>
                         <CollapsibleContent className="mt-2 text-sm">
-                          <ul className="list-disc ml-5">
-                            {fruit.supplier.map((s) => (
-                              <li key={s.id}>{s.supplier.user.name}</li>
-                            ))}
-                          </ul>
+                          <Badge variant="default">
+                            Supplier: {fruit.supplier.user.name}
+                          </Badge>
                         </CollapsibleContent>
                       </Collapsible>
                       <DialogClose asChild>

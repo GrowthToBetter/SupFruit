@@ -7,6 +7,7 @@ export async function upsertFruit(data: FormData, supplierId: string) {
   const fruit = data.get("fruit") as string;
   const stock = parseInt(data.get("stock") as string);
   const price = data.get("price") as string;
+  const image_url = data.get("image_url") as string | null;
 
   if (id) {
     // Update existing fruit
@@ -17,6 +18,7 @@ export async function upsertFruit(data: FormData, supplierId: string) {
         stock,
         isVerif: false,
         status_fruit: stock == 0 ? "empty_stock" : "ready_stock",
+        image: image_url,
         price: {
           update: {
             price,
@@ -27,33 +29,39 @@ export async function upsertFruit(data: FormData, supplierId: string) {
     });
   } else {
     // Create new fruit and link to supplier via supply_fruit
-    const newFruit = await prisma.fruit.create({
+    await prisma.fruit.create({
       data: {
         name: fruit,
         stock,
         status_fruit: stock == 0 ? "empty_stock" : "ready_stock",
         isVerif: false,
+        image: image_url,
         price: {
           create: {
             price,
             date: new Date(),
           },
         },
-      },
-    });
-
-    await prisma.supply_fruit.create({
-      data: {
-        fruit_id: newFruit.id,
-        supplier_id: supplierId,
+        supplier: {
+          connect: {
+            id: supplierId,
+          },
+        },
       },
     });
   }
   revalidatePath("/profile");
+  revalidatePath("/admin");
+  return { success: true };
 }
 
 export async function deleteFruit(id: string) {
-  return await prisma.fruit.delete({
+  await prisma.fruit.delete({
     where: { id },
   });
+  revalidatePath("/profile");
+  revalidatePath("/admin");
+  return {
+    success: true,
+  };
 }
