@@ -15,7 +15,7 @@ export default auth(async function middleware(req) {
   if (isLoggedIn && isOnAuthPage) {
     return NextResponse.redirect(
       new URL(
-        req.auth?.user?.role !== "Admin" ? "/dashboard" : "/admin",
+        req.auth?.user?.role !== "Admin" ? "/" : "/admin",
         req.nextUrl
       )
     );
@@ -27,5 +27,5 @@ export default auth(async function middleware(req) {
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/auth/signin"],
+  matcher: [ "/admin/:path*", "/auth/signin"],
 };

@@ -27,7 +27,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/dashboard/list"
+                  href="/list"
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   List Buah
@@ -35,7 +35,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/dashboard/daftar"
+                  href="/daftar"
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   Daftar Supplier
@@ -65,7 +65,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/dashboard/Pengembang"
+                  href="/Pengembang"
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   Pengembang
