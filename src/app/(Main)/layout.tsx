@@ -1,5 +1,5 @@
-import Navbar from "@/components/landing-page/navbar";
-import Footer from "@/components/landing-page/footer";
+import Navbar from "@/components/new-lp/navbar";
+import Footer from "@/components/new-lp/footer";
 import AuthProvider from "@/components/providers/session-provider";
 import { Toaster } from "sonner";
 
