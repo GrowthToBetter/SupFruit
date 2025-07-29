@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "./lib/config/auth.cofig";
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
+export const { auth, handlers, signIn, signOut } = NextAuth({ 
   ...authConfig,
   adapter: PrismaAdapter(prisma),
 });
