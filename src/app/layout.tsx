@@ -5,47 +5,47 @@ import "./globals.css";
 const sfFont = localFont({
   src: [
     {
-      path: "../fonts/SFPRODISPLAYREGULAR.OTF",
+      path: "./fonts/SFPRODISPLAYREGULAR.OTF",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../fonts/SFPRODISPLAYMEDIUM.OTF",
+      path: "./fonts/SFPRODISPLAYMEDIUM.OTF",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../fonts/SFPRODISPLAYBOLD.OTF",
+      path: "./fonts/SFPRODISPLAYBOLD.OTF",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../fonts/SFPRODISPLAYBLACKITALIC.OTF",
+      path: "./fonts/SFPRODISPLAYBLACKITALIC.OTF",
       weight: "900",
       style: "italic",
     },
     {
-      path: "../fonts/SFPRODISPLAYHEAVYITALIC.OTF",
+      path: "./fonts/SFPRODISPLAYHEAVYITALIC.OTF",
       weight: "800",
       style: "italic",
     },
     {
-      path: "../fonts/SFPRODISPLAYSEMIBOLDITALIC.OTF",
+      path: "./fonts/SFPRODISPLAYSEMIBOLDITALIC.OTF",
       weight: "600",
       style: "italic",
     },
     {
-      path: "../fonts/SFPRODISPLAYLIGHTITALIC.OTF",
+      path: "./fonts/SFPRODISPLAYLIGHTITALIC.OTF",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../fonts/SFPRODISPLAYTHINITALIC.OTF",
+      path: "./fonts/SFPRODISPLAYTHINITALIC.OTF",
       weight: "300",
       style: "italic",
     },
     {
-      path: "../fonts/SFPRODISPLAYULTRALIGHTITALIC.OTF",
+      path: "./fonts/SFPRODISPLAYULTRALIGHTITALIC.OTF",
       weight: "200",
       style: "italic",
     },
