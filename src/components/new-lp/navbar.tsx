@@ -140,7 +140,7 @@ export default function Navbar() {
 
       {/* Desktop CTA Button */}
       <Link
-        href={"/list"}
+        href={"/toko"}
         className="hidden md:flex gap-2 lg:gap-3 text-base lg:text-xl hover:text-green-300 transition-colors duration-300 items-center"
       >
         <ShoppingCart size={20} />
@@ -196,7 +196,7 @@ export default function Navbar() {
 
           {/* Mobile CTA Button */}
           <Link
-            href={"/list"}
+            href={"/toko"}
             className="flex items-center gap-3 py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-300 mt-4"
             onClick={() => setIsMobileMenuOpen(false)}
           >

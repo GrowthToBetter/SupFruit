@@ -3,7 +3,7 @@
 import { ChevronDown, ChevronLeft, MessageCircle, Search, Share2, ShoppingCart, Truck, User } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 
 const productData = {
@@ -24,11 +24,18 @@ const productData = {
 
 export default function ProductDetail() {
   const params = useParams()
+  const router = useRouter()
   const productId = Number.parseInt(params.id as string)
   const product = productData[productId as keyof typeof productData]
 
   if (!product) {
     return <div>Product not found</div>
+  }
+
+  const handleAddToCart = () => {
+    // Add product to cart logic would go here
+    // For now, we'll just redirect to the cart page
+    router.push('/keranjang')
   }
 
   return (
@@ -82,13 +89,11 @@ export default function ProductDetail() {
                   className="flex-1 bg-transparent text-gray-700 placeholder-gray-400 border-none outline-none text-sm"
                 />
               </div>
-            </div>
-
-            {/* Right Section: Icons */}
+            </div>            {/* Right Section: Icons */}
             <div className="flex items-center gap-6">
-              <button className="text-gray-600 hover:text-gray-900 transition-colors">
+              <Link href="/keranjang" className="text-gray-600 hover:text-gray-900 transition-colors">
                 <ShoppingCart className="w-6 h-6" />
-              </button>
+              </Link>
               <button className="text-gray-600 hover:text-gray-900 transition-colors">
                 <User className="w-6 h-6" />
               </button>
@@ -184,11 +189,10 @@ export default function ProductDetail() {
                   </Button>
                 </div>
               </div>
-            </div>
-
-            {/* Action Buttons */}
+            </div>            {/* Action Buttons */}
             <div className="flex gap-3 pt-8">
               <Button 
+                onClick={handleAddToCart}
                 className="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 px-6 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <ShoppingCart className="w-5 h-5 mr-2" />

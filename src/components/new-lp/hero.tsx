@@ -66,7 +66,7 @@ export default function Hero() {
                 <ChevronRight className="transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
               <Link
-                href="/list"
+                href="/toko"
                 className="text-black bg-white px-4 py-3 rounded-full flex justify-between hover:bg-gray-100 transform transition-all duration-200 hover:shadow-lg"
               >
                 Beli Buah Sekarang{" "}
