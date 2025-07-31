@@ -6,26 +6,91 @@ import {
   Share2,
   ShoppingBag,
   ShoppingCart,
-  Truck,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { allProducts } from "@/components/toko/DummyData";
+import { getFruits } from "@/utils/AdminServerAction";
 import { Product } from "@/components/toko/types";
+import { mapFruitsToProducts } from "@/components/toko/mapProductData";
+import { useEffect, useState } from "react";
 
 export default function ProductDetail() {
-  const productData = allProducts.reduce((acc, product) => {
-    acc[product.id] = product;
-    return acc;
-  }, {} as Record<number, Product>);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  console.log(error);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Gunakan getFruits() yang sudah ada
+        const fruitsData = await getFruits();
+
+        // Map data ke format Product
+        const mappedProducts = mapFruitsToProducts(fruitsData);
+
+        setProducts(mappedProducts);
+      } catch (err) {
+        console.error("Error loading products:", err);
+        setError("Gagal memuat produk. Silakan coba lagi.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
   const params = useParams();
-  const productId = Number.parseInt(params.id as string);
-  const product = productData[productId as keyof typeof productData];
+  const productId = params.id as string;
+  const product = products.find((p) => p.id === productId);
 
   if (!product) {
-    return <div>Product not found</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          {setTimeout(() => {}, 2000) && (
+            <p className="text-gray-600">
+              Jika load terlalu lama, produk tidak tersedia
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Memuat produk...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <Button
+            onClick={() => window.location.reload()}
+            className="bg-primary text-white"
+          >
+            Coba Lagi
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -72,13 +137,13 @@ export default function ProductDetail() {
                 {product.name}
               </h1>
               <p className="text-2xl sm:text-3xl font-bold text-gray-900">
-                {product.price}
+                {product.price.price}
               </p>
             </div>
 
             {/* Description */}
             <div className="prose text-gray-600 max-w-none text-sm sm:text-base">
-              {product.description.split("\n\n").map((paragraph, index) => (
+              {product.description?.split("\n\n").map((paragraph, index) => (
                 <p key={index} className="mb-3 sm:mb-4">
                   {paragraph}
                 </p>
@@ -91,7 +156,7 @@ export default function ProductDetail() {
                 <div>
                   <p className="text-sm text-gray-500">Supplier:</p>
                   <p className="font-medium text-gray-900 text-sm sm:text-base">
-                    {product.supplier}
+                    {product.supplier.user.name}
                   </p>
                 </div>
                 <button
@@ -107,15 +172,11 @@ export default function ProductDetail() {
             {/* Shipping Info */}
             <div className="border-t pt-4 sm:pt-6">
               <h3 className="font-medium text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">
-                Pengiriman
+                Deskripsi :
               </h3>
               <div className="space-y-2 sm:space-y-3">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Truck className="w-4 h-4 flex-shrink-0" />
-                  <span>{product.shipping.location}</span>
-                </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600 ml-6">
-                  <span>{product.shipping.cost}</span>
+                  <span>{product.description}</span>
                 </div>
               </div>
 
@@ -148,14 +209,15 @@ export default function ProductDetail() {
                 <span className="hidden sm:inline">Tambahkan Keranjang</span>
                 <span className="sm:hidden">Keranjang</span>
               </button>
-              <button
+              <Link
+                href={`https://wa.me/6285106655664?text=Halo, saya tertarik dengan produk ${product.name} yang ada di toko Anda. Apakah masih tersedia?`}
                 title="Buy Now"
                 className="rounded-full cursor-pointer w-full px-4 sm:px-6 lg:px-8 py-3 sm:py-2 lg:py-3 outline outline-primary text-primary flex gap-2 hover:bg-primary hover:text-white hover:outline-none duration-200 hover:scale-105 transform transition-all text-sm sm:text-base font-medium items-center justify-center order-1 sm:order-2"
               >
                 <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="hidden sm:inline">Beli Sekarang</span>
                 <span className="sm:hidden">Beli</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

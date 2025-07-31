@@ -11,7 +11,6 @@ interface ProductCardProps {
   onClick?: () => void;
   onAddToCart?: () => void;
   onOrderNow?: () => void;
-  showTrendingBadge?: boolean;
   className?: string;
 }
 
@@ -21,7 +20,6 @@ export function ProductCard({
   onClick,
   onAddToCart,
   onOrderNow,
-  showTrendingBadge = false,
   className = "",
 }: ProductCardProps) {
   const CardContent = () => (
@@ -29,12 +27,6 @@ export function ProductCard({
       className={`bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-md transition-all duration-200 relative group ${className}`}
     >
       {/* Trending Badge */}
-      {showTrendingBadge && product.trending && (
-        <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full font-medium z-10">
-          <span className="hidden sm:inline">🔥 Viral</span>
-          <span className="sm:hidden">🔥</span>
-        </div>
-      )}
 
       {/* Product Image */}
       <div className="aspect-square bg-gray-200 rounded-t-xl sm:rounded-t-2xl lg:rounded-t-3xl overflow-hidden relative">
@@ -83,10 +75,10 @@ export function ProductCard({
           {product.name}
         </h3>
         <p className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">
-          {product.price}
+          {product.price.price}
         </p>
         <p className="text-xs p-1.5 sm:p-2 rounded-sm sm:rounded-2xl w-fit bg-primary/20 font-semibold text-primary line-clamp-1">
-          {product.supplier}
+          {product.supplier.user.name}
         </p>
       </div>
     </div>

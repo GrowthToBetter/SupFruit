@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-    output   = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -16,37 +16,37 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
 
-  role      role_user @default(Pembeli)
-  address        String?
+  role    role_user @default(Pembeli)
+  address String?
 
-  accounts       Account[]
-  sessions       Session[]
+  accounts Account[]
+  sessions Session[]
 
-  pembeli        pembeli?
-  supplier       supplier?
+  pembeli  pembeli?
+  supplier supplier?
 }
 
 model Account {
-  id                 String   @id @default(uuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  
-  access_token       String?  
-  expires_at         Int?     
-  token_type         String?  
-  scope              String?  
-  id_token           String?  
-  session_state      String?  
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -57,7 +57,7 @@ model Session {
   userId       String
   expires      DateTime
 
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -93,19 +93,20 @@ model pembeli {
   transaction transaction[]
 }
 
-
 model fruit {
-  id           String         @id @default(uuid())
+  id           String        @id @default(uuid())
   name         String
-  price_id     String         @unique
+  price_id     String        @unique
   image        String?
-  status_fruit status_fruit   @default(empty_stock)
-  stock        Int            @default(0)
-  isVerif      Boolean        @default(false)
-  price        fruit_price    @relation(references: [id], fields: [price_id], onDelete: Cascade)
+  description  String?
+  status_fruit status_fruit  @default(empty_stock)
+  stock        Int           @default(0)
+  isVerif      Boolean       @default(false)
+  price        fruit_price   @relation(references: [id], fields: [price_id], onDelete: Cascade)
   transaction  transaction[]
   supplier_id  String
-  supplier     supplier  @relation(references: [id], fields: [supplier_id], onDelete: Cascade)
+  supplier     supplier      @relation(references: [id], fields: [supplier_id], onDelete: Cascade)
+  product_type product_type  @default(fruit)
 }
 
 model fruit_price {
@@ -114,7 +115,6 @@ model fruit_price {
   date  DateTime @default(now())
   fruit fruit?
 }
-
 
 model transaction {
   id         String  @id @default(uuid())
@@ -133,4 +133,9 @@ enum role_user {
 enum status_fruit {
   ready_stock
   empty_stock
+}
+
+enum product_type {
+  fruit
+  animal
 }

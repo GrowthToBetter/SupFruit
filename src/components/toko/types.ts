@@ -1,26 +1,30 @@
-export enum ProductCategory {
-  FRUIT = "fruit",
-  ANIMAL = "animal",
-  VEGETABLE = "vegetable",
-  DAIRY = "dairy",
-  MEAT = "meat",
-  SEAFOOD = "seafood",
+export interface Product {
+  id: string;
+  name: string;
+  price_id: string;
+  supplier_id: string;
+  image: string | null;
+  description: string | null;
+  product_type: "fruit" | "animal";
+  price: Price;
+  supplier: Supplier;
 }
 
-export interface Product {
-  id: number;
-  name: string;
+interface Price {
+  id: string;
   price: string;
-  supplier: string;
-  image: string;
-  description: string;
-  category: ProductCategory;
-  purchaseCount: number; // For determining viral products
-  shipping: {
-    location: string;
-    cost: string;
-  };
-  trending?: boolean;
+  date: Date;
+}
+
+interface Supplier {
+  user_id: string;
+  user: User;
+}
+
+interface User {
+  id: string;
+  name: string | null;
+  image: string | null;
 }
 
 export interface SlideData {
@@ -31,10 +35,4 @@ export interface SlideData {
   backgroundColor: string;
 }
 
-export type ProductSectionVariant = "general" | "viral" | "category";
-
-export interface ProductFilterOptions {
-  category?: ProductCategory;
-  minPurchaseCount?: number;
-  limit?: number;
-}
+export type ProductSectionVariant = "general" | "category";

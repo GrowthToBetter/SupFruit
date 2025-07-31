@@ -108,19 +108,22 @@ export default function FruitPage() {
                         <DropdownMenuTrigger asChild>
                           <Button
                             variant="outline"
-                            className="w-full justify-between">
+                            className="w-full justify-between"
+                          >
                             Aksi <MoreVertical className="ml-2 h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem
                             onClick={() => handleVerify(fruit.id)}
-                            className="text-green-600 hover:bg-green-100 cursor-pointer">
+                            className="text-green-600 hover:bg-green-100 cursor-pointer"
+                          >
                             Verifikasi
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleDenied(fruit.id)}
-                            className="text-red-600 hover:bg-red-100 cursor-pointer">
+                            className="text-red-600 hover:bg-red-100 cursor-pointer"
+                          >
                             Denied
                           </DropdownMenuItem>
                         </DropdownMenuContent>

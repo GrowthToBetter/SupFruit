@@ -24,6 +24,7 @@ export async function getFruits() {
           user: true,
         },
       },
+      price: true,
     },
   });
 }

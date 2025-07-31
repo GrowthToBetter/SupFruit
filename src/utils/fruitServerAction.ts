@@ -8,6 +8,7 @@ export async function upsertFruit(data: FormData, supplierId: string) {
   const stock = parseInt(data.get("stock") as string);
   const price = data.get("price") as string;
   const image_url = data.get("image_url") as string | null;
+  const product_type = data.get("product_type") as "fruit" | "animal";
 
   if (id) {
     // Update existing fruit
@@ -47,6 +48,7 @@ export async function upsertFruit(data: FormData, supplierId: string) {
             id: supplierId,
           },
         },
+        product_type: product_type,
       },
     });
   }
@@ -68,11 +70,7 @@ export async function deleteFruit(id: string) {
   };
 }
 
-
-export async function editFruit(data: {
-  id: string;
-  stock: number;
-}) {
+export async function editFruit(data: { id: string; stock: number }) {
   try {
     await prisma.fruit.update({
       where: { id: data.id },
@@ -80,8 +78,8 @@ export async function editFruit(data: {
         stock: data.stock,
       },
     });
-    revalidatePath('/list');
-    revalidatePath('/profile');
+    revalidatePath("/list");
+    revalidatePath("/profile");
     return { success: true };
   } catch (error) {
     console.error("Edit fruit failed:", error);

@@ -1,12 +1,14 @@
 // pages/TokoPage.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BannerSlider } from "@/components/toko/BannerSlider";
 import { ProductSection } from "@/components/toko/ProductSection";
 import { Product, SlideData } from "@/components/toko/types";
 import { LoadMoreButton } from "@/components/toko/LoadMoreButton";
-import { allProducts } from "@/components/toko/DummyData";
+// import { allProducts } from "@/components/toko/DummyData";
+import { getFruits } from "@/utils/AdminServerAction";
+import { mapFruitsToProducts } from "@/components/toko/mapProductData";
 
 // Data
 
@@ -39,6 +41,34 @@ const sliderData: SlideData[] = [
 
 export default function TokoPage() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  console.log(error);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Gunakan getFruits() yang sudah ada
+        const fruitsData = await getFruits();
+
+        // Map data ke format Product
+        const mappedProducts = mapFruitsToProducts(fruitsData);
+
+        setProducts(mappedProducts);
+      } catch (err) {
+        console.error("Error loading products:", err);
+        setError("Gagal memuat produk. Silakan coba lagi.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
 
   // Handler functions
   // const handleProductClick = (product: Product) => {
@@ -77,8 +107,8 @@ export default function TokoPage() {
         {/* Fruit Products Section */}
         <ProductSection
           title="Produk Buah-buahan"
-          products={allProducts.filter(
-            (product) => product.category === "fruit"
+          products={products.filter(
+            (product) => product.product_type === "fruit"
           )}
           viewAllHref="/products"
           generateHref={generateProductHref}
@@ -88,20 +118,11 @@ export default function TokoPage() {
         {/* Animal Products Section */}
         <ProductSection
           title="Produk Hewani"
-          products={allProducts.filter(
-            (product) => product.category === "animal"
+          products={products.filter(
+            (product) => product.product_type === "animal"
           )}
           viewAllHref="/animal-products"
           generateHref={generateProductHref}
-        />
-
-        {/* Viral Products Section */}
-        <ProductSection
-          title="Produk Viral"
-          products={allProducts.filter((product) => product.trending === true)}
-          viewAllHref="/viral-products"
-          generateHref={generateProductHref}
-          showTrendingBadge={true}
         />
 
         {/* Load More Button */}
@@ -117,69 +138,3 @@ export default function TokoPage() {
 }
 
 // Alternatif untuk menggunakan onProductClick tanpa href
-export function TokoPageWithClickHandlers() {
-  const [loading, setLoading] = useState(false);
-
-  const handleProductClick = (product: Product) => {
-    console.log("Fruit product clicked:", product);
-    // Handle navigation programmatically
-    // router.push(`/toko/produk/${product.id}`);
-  };
-
-  const handleAnimalProductClick = (product: Product) => {
-    console.log("Animal product clicked:", product);
-    // Handle navigation programmatically
-    // router.push(`/toko/hewani/${product.id}`);
-  };
-
-  const handleViralProductClick = (product: Product) => {
-    console.log("Viral product clicked:", product);
-    // Handle navigation programmatically
-    // router.push(`/toko/viral/${product.id}`);
-  };
-
-  const handleLoadMore = async () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      console.log("Loading more products...");
-    }, 2000);
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <BannerSlider slides={sliderData} />
-
-        <ProductSection
-          title="Produk Buah-buahan"
-          products={allProducts.filter(
-            (product) => product.category === "fruit"
-          )}
-          viewAllHref="/products"
-          onProductClick={handleProductClick}
-          className="first:mt-0"
-        />
-
-        <ProductSection
-          title="Produk Hewani"
-          products={allProducts.filter(
-            (product) => product.category === "animal"
-          )}
-          viewAllHref="/animal-products"
-          onProductClick={handleAnimalProductClick}
-        />
-
-        <ProductSection
-          title="Produk Viral"
-          products={allProducts.filter((product) => product.trending === true)}
-          viewAllHref="/viral-products"
-          onProductClick={handleViralProductClick}
-          showTrendingBadge={true}
-        />
-
-        <LoadMoreButton onClick={handleLoadMore} loading={loading} />
-      </main>
-    </div>
-  );
-}

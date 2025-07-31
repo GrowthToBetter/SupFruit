@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Product, ProductSectionVariant, ProductCategory } from "./types";
+import { Product, ProductSectionVariant } from "./types";
 import { ProductGrid } from "./ProductGrid";
 
 interface ProductSectionProps {
   title: string;
   products: Product[];
   variant?: ProductSectionVariant;
-  category?: ProductCategory;
+  category?: "fruit" | "animal";
   viewAllHref?: string;
   viewAllText?: string;
   showTrendingBadge?: boolean;
@@ -24,30 +24,20 @@ export function ProductSection({
   category,
   viewAllHref,
   viewAllText = "Lihat semua",
-  showTrendingBadge = false,
   generateHref,
   onProductClick,
   className = "mt-12",
 }: ProductSectionProps) {
   // Auto-detect trending badge for viral variant
-  const shouldShowTrendingBadge = variant === "viral" || showTrendingBadge;
 
   // Auto-generate href based on variant and category
   const getDefaultHref = (): string => {
     if (viewAllHref) return viewAllHref;
 
     switch (variant) {
-      case "viral":
-        return "/toko/viral";
       case "category":
-        if (category === ProductCategory.FRUIT) return "/toko/buah";
-        if (
-          category === ProductCategory.ANIMAL ||
-          category === ProductCategory.MEAT ||
-          category === ProductCategory.SEAFOOD ||
-          category === ProductCategory.DAIRY
-        )
-          return "/toko/hewani";
+        if (category === "fruit") return "/toko/buah";
+        if (category === "animal") return "/toko/hewani";
         return "/toko/kategori";
       default:
         return "/toko/semua";
@@ -59,18 +49,9 @@ export function ProductSection({
     if (generateHref) return generateHref(product);
 
     switch (variant) {
-      case "viral":
-        return `/toko/viral/${product.id}`;
       case "category":
-        if (category === ProductCategory.FRUIT)
-          return `/toko/buah/${product.id}`;
-        if (
-          category === ProductCategory.ANIMAL ||
-          category === ProductCategory.MEAT ||
-          category === ProductCategory.SEAFOOD ||
-          category === ProductCategory.DAIRY
-        )
-          return `/toko/hewani/${product.id}`;
+        if (category === "fruit") return `/toko/buah/${product.id}`;
+        if (category === "animal") return `/toko/hewani/${product.id}`;
         return `/toko/produk/${product.id}`;
       default:
         return `/toko/produk/${product.id}`;
@@ -80,12 +61,6 @@ export function ProductSection({
   // Style variants based on section type
   const getSectionStyles = () => {
     switch (variant) {
-      case "viral":
-        return {
-          headerClass: "text-2xl font-bold text-red-600",
-          linkClass:
-            "text-red-600 hover:text-red-700 font-medium transition-colors duration-200",
-        };
       case "category":
         return {
           headerClass: "text-2xl font-bold text-green-600",
@@ -110,11 +85,6 @@ export function ProductSection({
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <h2 className={styles.headerClass}>{title}</h2>
-          {variant === "viral" && (
-            <span className="bg-red-100 text-red-600 text-xs font-medium px-2 py-1 rounded-full">
-              🔥 Trending
-            </span>
-          )}
         </div>
         {defaultHref && (
           <Link href={defaultHref} className={styles.linkClass}>
@@ -126,7 +96,6 @@ export function ProductSection({
       {/* Products Grid */}
       <ProductGrid
         products={products}
-        showTrendingBadge={shouldShowTrendingBadge}
         generateHref={(product) => getProductHref(product)}
         onProductClick={onProductClick}
       />
