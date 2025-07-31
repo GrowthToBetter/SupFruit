@@ -1,213 +1,165 @@
-"use client"
+"use client";
 
-import { ChevronDown, ChevronLeft, MessageCircle, Search, Share2, ShoppingCart, Truck, User } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-
-const productData = {
-  1: {
-    id: 1,
-    name: "Lemon California",
-    price: "Rp10.000 / kg",
-    supplier: "Ryo Hariyono Angwyn",
-    image: "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=400&fit=crop&crop=center",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    shipping: {
-      location: "Dikirim dari Lokasi Supplier",
-      cost: "Ongkir mulai Rp63.000",
-    },
-  },
-}
+import {
+  ChevronLeft,
+  MessageCircle,
+  Share2,
+  ShoppingBag,
+  ShoppingCart,
+  Truck,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { allProducts } from "@/components/toko/DummyData";
+import { Product } from "@/components/toko/types";
 
 export default function ProductDetail() {
-  const params = useParams()
-  const router = useRouter()
-  const productId = Number.parseInt(params.id as string)
-  const product = productData[productId as keyof typeof productData]
+  const productData = allProducts.reduce((acc, product) => {
+    acc[product.id] = product;
+    return acc;
+  }, {} as Record<number, Product>);
+  const params = useParams();
+  const productId = Number.parseInt(params.id as string);
+  const product = productData[productId as keyof typeof productData];
 
   if (!product) {
-    return <div>Product not found</div>
-  }
-
-  const handleAddToCart = () => {
-    // Add product to cart logic would go here
-    // For now, we'll just redirect to the cart page
-    router.push('/keranjang')
+    return <div>Product not found</div>;
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top Navigation Bar */}
-      <div className="bg-white border-b border-gray-200 py-2">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-end space-x-6 text-sm text-gray-500">
-            <Link href="/about" className="hover:text-gray-700 transition-colors">
-              Tentang KandAgro
-            </Link>
-            <Link href="/start-selling" className="hover:text-gray-700 transition-colors">
-              Mulai berjualan
-            </Link>
-            <Link href="/fruit-content" className="hover:text-gray-700 transition-colors">
-              Daftar kontens buah
-            </Link>
-            <Link href="/courier" className="hover:text-gray-700 transition-colors">
-              Menjadi kurir
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Left Section: Logo + Kategori */}
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center">
-                <span className="text-2xl font-bold">
-                  <span className="text-green-500">Kand</span>
-                  <span className="text-green-500">Agro</span>
-                </span>
-              </Link>
-
-              <button className="flex items-center gap-2 text-gray-900 font-medium text-base hover:text-green-600 transition-colors duration-200">
-                <span>Kategori</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Center Section: Search */}
-            <div className="flex-1 max-w-3xl mx-12">
-              <div className="flex items-center bg-gray-50 rounded-full px-6 py-3 border border-gray-200 hover:border-green-300 focus-within:border-green-400 focus-within:ring-2 focus-within:ring-green-100 transition-all duration-200">
-                <Search className="w-5 h-5 text-gray-400 mr-3" />
-                <input
-                  type="text"
-                  placeholder="Cari buah atau hewani di KandAgro"
-                  className="flex-1 bg-transparent text-gray-700 placeholder-gray-400 border-none outline-none text-sm"
-                />
-              </div>
-            </div>            {/* Right Section: Icons */}
-            <div className="flex items-center gap-6">
-              <Link href="/keranjang" className="text-gray-600 hover:text-gray-900 transition-colors">
-                <ShoppingCart className="w-6 h-6" />
-              </Link>
-              <button className="text-gray-600 hover:text-gray-900 transition-colors">
-                <User className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <Link href="/" className="flex items-center gap-2 text-green-600 hover:text-green-700">
+        <div className="flex items-center justify-between text-sm text-gray-500 mb-4 sm:mb-6 lg:mb-8">
+          <Link
+            href=".."
+            className="flex items-center gap-1 sm:gap-2 text-green-600 hover:text-green-700"
+          >
             <ChevronLeft className="w-4 h-4" />
-            Kembali ke beranda
+            <span className="hidden sm:inline">Kembali ke beranda</span>
+            <span className="sm:hidden">Kembali</span>
           </Link>
-          <div className="ml-auto flex items-center gap-2">
+          <button className="flex items-center gap-1 sm:gap-2 cursor-pointer text-gray-600 hover:text-gray-800">
             <Share2 className="w-4 h-4" />
-            <span>Bagikan produk</span>
-          </div>
+            <span className="hidden sm:inline">Bagikan produk</span>
+            <span className="sm:hidden">Bagikan</span>
+          </button>
         </div>
 
         {/* Product Detail */}
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {/* Product Image */}
-          <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
-            <Image
-              src={product.image || "/placeholder.svg"}
-              alt={product.name}
-              width={500}
-              height={500}
-              className="w-full h-full object-cover"
-            />
+          <div className="lg:col-span-1 flex justify-center lg:justify-start">
+            <div className="aspect-square max-h-80 sm:max-h-96 lg:max-h-none bg-gray-200 rounded-lg sm:rounded-xl lg:rounded-2xl overflow-hidden w-full max-w-80 sm:max-w-96">
+              <Image
+                src={product.image || "/placeholder.svg"}
+                alt={product.name}
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+            {/* Title & Price */}
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              <p className="text-3xl font-bold text-gray-900">{product.price}</p>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 leading-tight">
+                {product.name}
+              </h1>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900">
+                {product.price}
+              </p>
             </div>
 
-            <div className="prose text-gray-600 max-w-none">
+            {/* Description */}
+            <div className="prose text-gray-600 max-w-none text-sm sm:text-base">
               {product.description.split("\n\n").map((paragraph, index) => (
-                <p key={index} className="mb-4">
+                <p key={index} className="mb-3 sm:mb-4">
                   {paragraph}
                 </p>
               ))}
             </div>
 
             {/* Supplier Info */}
-            <div className="border-t pt-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="border-t pt-4 sm:pt-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
                 <div>
                   <p className="text-sm text-gray-500">Supplier:</p>
-                  <p className="font-medium text-gray-900">{product.supplier}</p>
+                  <p className="font-medium text-gray-900 text-sm sm:text-base">
+                    {product.supplier}
+                  </p>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-green-600 border-green-600 hover:bg-green-50 bg-transparent"
+                <button
+                  title="Chat Supplier"
+                  className="rounded-full cursor-pointer px-4 sm:px-6 lg:px-8 py-1 sm:py-2 lg:py-2 outline outline-primary text-primary flex gap-2 hover:bg-primary hover:text-white hover:outline-none duration-200 hover:scale-105 transform transition-all text-sm sm:text-base font-medium items-center justify-center sm:justify-start w-full sm:w-auto"
                 >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Chat
-                </Button>
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span>Chat Supplier</span>
+                </button>
               </div>
-            </div>            {/* Shipping Info */}
-            <div className="border-t pt-6">
-              <h3 className="font-medium text-gray-900 mb-4">Pengiriman</h3>
-              <div className="space-y-3">
+            </div>
+
+            {/* Shipping Info */}
+            <div className="border-t pt-4 sm:pt-6">
+              <h3 className="font-medium text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">
+                Pengiriman
+              </h3>
+              <div className="space-y-2 sm:space-y-3">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Truck className="w-4 h-4" />
+                  <Truck className="w-4 h-4 flex-shrink-0" />
                   <span>{product.shipping.location}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-gray-600 ml-6">
                   <span>{product.shipping.cost}</span>
                 </div>
               </div>
-                {/* Report Section */}
-              <div className="mt-6 pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-between">
-                  <Link 
-                    href="#" 
-                    className="text-sm text-gray-600 hover:text-gray-800 hover:underline transition-colors"
+
+              {/* Report Section */}
+              <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                  <Link
+                    href="#"
+                    className="text-xs sm:text-sm text-gray-600 hover:text-gray-800 hover:underline transition-colors"
                   >
                     Ada masalah dengan produk ini?
                   </Link>
-                  <Button 
-                    variant="link" 
-                    className="text-sm text-red-500 hover:text-red-600 p-0 h-auto transition-colors"
+                  <Button
+                    variant="link"
+                    className="text-xs sm:text-sm text-red-500 hover:text-red-600 p-0 h-auto cursor-pointer transition-colors justify-start sm:justify-end"
                   >
                     Laporkan
                   </Button>
                 </div>
               </div>
-            </div>            {/* Action Buttons */}
-            <div className="flex gap-3 pt-8">
-              <Button 
-                onClick={handleAddToCart}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 px-6 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-6 sm:pt-8">
+              <button
+                title="Add to Cart"
+                className="rounded-full cursor-pointer w-full px-4 sm:px-6 lg:px-8 py-3 sm:py-2 lg:py-3 outline hover:outline-1 outline-primary bg-primary text-white flex gap-2 hover:bg-white hover:text-primary duration-200 hover:scale-105 transform transition-all text-sm sm:text-base font-medium items-center justify-center order-2 sm:order-1"
               >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                Tambah ke Keranjang
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1 border-2 border-green-600 text-green-600 hover:bg-green-50 py-4 px-6 rounded-xl font-medium bg-transparent transition-all duration-200 hover:border-green-700"
+                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Tambahkan Keranjang</span>
+                <span className="sm:hidden">Keranjang</span>
+              </button>
+              <button
+                title="Buy Now"
+                className="rounded-full cursor-pointer w-full px-4 sm:px-6 lg:px-8 py-3 sm:py-2 lg:py-3 outline outline-primary text-primary flex gap-2 hover:bg-primary hover:text-white hover:outline-none duration-200 hover:scale-105 transform transition-all text-sm sm:text-base font-medium items-center justify-center order-1 sm:order-2"
               >
-                Beli Langsung
-              </Button>
+                <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Beli Sekarang</span>
+                <span className="sm:hidden">Beli</span>
+              </button>
             </div>
           </div>
         </div>
       </main>
     </div>
-  )
+  );
 }
